@@ -33,3 +33,7 @@ The parameters are set in `launch/nmea2fix.launch` .
 |pub_fix_topic_name|double|Topic name of nmea_msgs/Gpgga to publish|/f9p/fix|
 |pub_gga_topic_name|bool|Topic name of nmea_msgs/Gpgga to publish|/gga|
 |output_gga|bool|Whether to output nmea_msgs/Gpgga|false|
+
+
+# Related packages
+- [nmea_comms](https://github.com/MapIV/nmea_comms)
