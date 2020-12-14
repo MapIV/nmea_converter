@@ -18,7 +18,7 @@ roslaunch nmea2fix nmea2fix.launch
 
 ## Published Topics
 
- - /f9p/fix (sensor_msgs/NavSatFix)
+ - /f9p/fix (sensor_msgs/NavSatFix) (This topic will not be published unless its location has been estimated.)
 
  - /gga (nmea_msgs/Gpgga)
 
