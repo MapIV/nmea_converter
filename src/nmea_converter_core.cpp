@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "nmea2fix/nmea2fix.hpp"
+#include "nmea_converter/nmea_converter.hpp"
 
 double stringToROSTime(std::string& input, double header_time)
 {
@@ -50,7 +50,7 @@ double stringToROSTime(std::string& input, double header_time)
   return GPSTime;
 }
 
-void nmea2fix_converter(const nmea_msgs::Sentence sentence, sensor_msgs::NavSatFix* fix, nmea_msgs::Gpgga* gga)
+void nmea_converter(const nmea_msgs::Sentence sentence, sensor_msgs::NavSatFix* fix, nmea_msgs::Gpgga* gga)
 {
 
   std::vector<std::string> linedata,nmea_data;

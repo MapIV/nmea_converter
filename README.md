@@ -1,4 +1,4 @@
-nmea2fix
+nmea_converter
 ==========
 
 A ros package that converts gnss nmea messages to navsatfix messages
@@ -8,7 +8,7 @@ A ros package that converts gnss nmea messages to navsatfix messages
 
 ~~~
 source $HOME/catkin_ws/devel/setup.bash
-roslaunch nmea2fix nmea2fix.launch
+roslaunch nmea_converter nmea_converter.launch
 ~~~
 
 # Node
@@ -25,7 +25,7 @@ roslaunch nmea2fix nmea2fix.launch
 
 # Parameter description
 
-The parameters are set in `launch/nmea2fix.launch` .
+The parameters are set in `launch/nmea_converter.launch` .
 
 |Name|Type|Description|Default value|
 |:---|:---|:---|:---|

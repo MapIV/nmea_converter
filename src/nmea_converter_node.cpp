@@ -1,6 +1,6 @@
 
 #include "ros/ros.h"
-#include "nmea2fix/nmea2fix.hpp"
+#include "nmea_converter/nmea_converter.hpp"
 
 static ros::Publisher pub1,pub2;
 static nmea_msgs::Sentence sentence;
@@ -15,7 +15,7 @@ void nmea_callback(const nmea_msgs::Sentence::ConstPtr &msg)
 
   sentence.header = msg->header;
   sentence.sentence = msg->sentence;
-  nmea2fix_converter(sentence, &fix, &gga);
+  nmea_converter(sentence, &fix, &gga);
   if (fix.header.stamp.toSec() != 0)
   {
     gga.header.frame_id = fix.header.frame_id = "gps";
@@ -26,7 +26,7 @@ void nmea_callback(const nmea_msgs::Sentence::ConstPtr &msg)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "nmea2fix_node");
+  ros::init(argc, argv, "nmea_converter_node");
   ros::NodeHandle n;
 
   n.getParam("sub_topic_name",sub_topic_name);
