@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(nmea2fix)
+project(nmea_converter)
 
 set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall")
 
@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES nmea2fix
+  LIBRARIES nmea_converter
 )
 
 include_directories(
@@ -20,8 +20,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(nmea2fix
-  src/nmea2fix_core.cpp
+add_library(nmea_converter
+  src/nmea_converter_core.cpp
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/
@@ -29,20 +29,20 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.hpp"
 )
 
-target_link_libraries(nmea2fix
+target_link_libraries(nmea_converter
   ${catkin_LIBRARIES}
 )
 
-install(TARGETS nmea2fix
+install(TARGETS nmea_converter
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 find_package(catkin REQUIRED COMPONENTS
-  nmea2fix
+  nmea_converter
 )
 
-add_executable(nmea2fix_node src/nmea2fix_node.cpp)
-target_link_libraries(nmea2fix_node ${catkin_LIBRARIES} )
-add_dependencies(nmea2fix_node ${catkin_EXPORTED_TARGETS})
+add_executable(nmea_converter_node src/nmea_converter_node.cpp)
+target_link_libraries(nmea_converter_node ${catkin_LIBRARIES} )
+add_dependencies(nmea_converter_node ${catkin_EXPORTED_TARGETS})

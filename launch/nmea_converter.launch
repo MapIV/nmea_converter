@@ -13,6 +13,6 @@
   <param name="pub_gga_topic_name" value="$(arg pub_gga_topic_name)"/>
   <param name="output_gga" value="$(arg output_gga)"/>
 
-  <node pkg="nmea2fix" name="nmea2fix_node" type="nmea2fix_node" />
+  <node pkg="nmea_converter" name="nmea_converter_node" type="nmea_converter_node" />
 
 </launch>

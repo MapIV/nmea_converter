@@ -23,8 +23,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef NMEA2FIX_H
-#define NMEA2FIX_H
+#ifndef NMEA_CONVERTER_H
+#define NMEA_CONVERTER_H
 
 #include "sensor_msgs/NavSatFix.h"
 #include "nmea_msgs/Sentence.h"
@@ -34,6 +34,6 @@
 #include <memory>
 
 extern double stringToROSTime(std::string&, double);
-extern void nmea2fix_converter(const nmea_msgs::Sentence,  sensor_msgs::NavSatFix*, nmea_msgs::Gpgga*);
+extern void nmea_converter(const nmea_msgs::Sentence,  sensor_msgs::NavSatFix*, nmea_msgs::Gpgga*);
 
-#endif /*NMEA2FIX_H */
+#endif /*NMEA_CONVERTER_H */
