@@ -46,3 +46,9 @@ find_package(catkin REQUIRED COMPONENTS
 add_executable(nmea_converter_node src/nmea_converter_node.cpp)
 target_link_libraries(nmea_converter_node ${catkin_LIBRARIES} )
 add_dependencies(nmea_converter_node ${catkin_EXPORTED_TARGETS})
+
+install(
+  DIRECTORY
+    launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
