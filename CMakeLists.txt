@@ -47,6 +47,11 @@ add_executable(nmea_converter_node src/nmea_converter_node.cpp)
 target_link_libraries(nmea_converter_node ${catkin_LIBRARIES} )
 add_dependencies(nmea_converter_node ${catkin_EXPORTED_TARGETS})
 
+install(TARGETS
+  nmea_converter_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(
   DIRECTORY
     launch
