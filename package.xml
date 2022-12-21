@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
-<package format="2">
-  <name>nmea_converter</name>
-  <version>1.0.0</version>
-  <description>nmea_converter package</description>
+<?xml-model
+   href="http://download.ros.org/schema/package_format3.xsd"
+   schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+ <name>nmea2fix</name>
+ <version>0.0.0</version>
+ <description>nmea2fix package</description>
+ <maintainer email="kosei.tanada@map4.jp">KoseiTanada</maintainer>
+ <license>BSD3</license>
 
-  <maintainer email="osamu.sekino@tier4.jp">OsamuSekino</maintainer>
+ <buildtool_depend>ament_cmake</buildtool_depend>
+ <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nmea_msgs</depend>
 
-  <license>BSD3</license>
+ <test_depend>ament_lint_auto</test_depend>
+ <test_depend>ament_lint_common</test_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>nmea_msgs</build_depend>
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>sensor_msgs</build_export_depend>
-  <build_export_depend>nmea_msgs</build_export_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>nmea_msgs</exec_depend>
-  <export>
-  </export>
+ <export>
+   <build_type>ament_cmake</build_type>
+ </export>
 </package>

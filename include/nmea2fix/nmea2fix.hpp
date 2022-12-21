@@ -23,18 +23,46 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef NMEA_CONVERTER_H
-#define NMEA_CONVERTER_H
+#ifndef NMEA2FIX_H
+#define NMEA2FIX_H
 
-#include "sensor_msgs/NavSatFix.h"
-#include "nmea_msgs/Sentence.h"
-#include "nmea_msgs/Gpgga.h"
-#include "nmea_msgs/Gprmc.h"
+#include <sensor_msgs/msg/nav_sat_fix.hpp>
+#include <nmea_msgs/msg/sentence.hpp>
+#include <nmea_msgs/msg/gpgga.hpp>
 #include <string>
 #include <time.h>
 #include <memory>
+#include <cmath>
+#include <chrono>
 
-extern double stringToGPSTime(std::string&, double);
-extern void nmea_converter(const nmea_msgs::Sentence,  sensor_msgs::NavSatFix*, nmea_msgs::Gpgga*, nmea_msgs::Gprmc*);
+#include <rclcpp/rclcpp.hpp>
 
-#endif /*NMEA_CONVERTER_H */
+
+class Nmea2Fix:public rclcpp::Node
+{
+private:
+    rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr navsatafix_pub_;
+    rclcpp::Publisher<nmea_msgs::msg::Gpgga>::SharedPtr nmea_pub_;
+    rclcpp::Subscription<nmea_msgs::msg::Sentence>::SharedPtr nmea_sub_;
+
+    nmea_msgs::msg::Sentence sentence_;
+
+    std::string sub_topic_name_,pub_fix_topic_name_,pub_gga_topic_name_;
+    bool output_gga_;
+
+    rclcpp::TimerBase::SharedPtr timer_;
+
+    double stringToROSTime(std::string&, double);
+    void nmea2fixConverter(const nmea_msgs::msg::Sentence,  sensor_msgs::msg::NavSatFix*, nmea_msgs::msg::Gpgga*);
+    void nmeaCallback(const nmea_msgs::msg::Sentence::ConstSharedPtr msg);
+    void timerCallback();
+    double toSec(std_msgs::msg::Header &msg);
+
+
+public:
+    Nmea2Fix();
+    ~Nmea2Fix();
+};
+
+
+#endif /*NMEA2FIX_H */
