@@ -23,9 +23,56 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "nmea2fix/nmea2fix.hpp"
+#include <nmea2fix/nmea2fix.hpp>
 
-double stringToROSTime(std::string& input, double header_time)
+
+using namespace std::chrono_literals;
+
+Nmea2Fix::Nmea2Fix():Node("nmeatofix_node"), sub_topic_name_(declare_parameter<std::string>("sub_topic_name")),pub_fix_topic_name_(declare_parameter<std::string>("pub_fix_topic_name")),pub_gga_topic_name_(declare_parameter<std::string>("pub_gga_topic_name")), output_gga_(declare_parameter<bool>("output_gga")){
+  std::cout<< "sub_topic_name "<<sub_topic_name_<<std::endl;
+  std::cout<< "pub_fix_topic_name "<<pub_fix_topic_name_<<std::endl;
+  std::cout<< "pub_gga_topic_name "<<pub_gga_topic_name_<<std::endl;
+  std::cout<< "output_gga "<<output_gga_<<std::endl;
+
+  nmea_sub_ = this->create_subscription<nmea_msgs::msg::Sentence>(sub_topic_name_, 1000, std::bind(&Nmea2Fix::nmeaCallback,this, std::placeholders::_1));
+  navsatafix_pub_ = this->create_publisher<sensor_msgs::msg::NavSatFix>(pub_fix_topic_name_, 1000);
+  if(output_gga_) nmea_pub_ = this->create_publisher<nmea_msgs::msg::Gpgga>(pub_gga_topic_name_, 1000);
+
+  timer_ = this->create_wall_timer(
+      10ms, std::bind(&Nmea2Fix::timerCallback, this));
+
+}
+
+Nmea2Fix::~Nmea2Fix()
+{
+}
+
+double Nmea2Fix::toSec(std_msgs::msg::Header &msg){
+  return msg.stamp.sec + msg.stamp.nanosec/1e9;
+
+}
+
+void Nmea2Fix::timerCallback(){
+  nmea_msgs::msg::Gpgga gga;
+  sensor_msgs::msg::NavSatFix fix;
+
+  nmea2fixConverter(sentence_, &fix, &gga);
+
+  if (toSec(fix.header) != 0)
+  {
+    gga.header.frame_id = fix.header.frame_id = "gps";
+    navsatafix_pub_->publish(fix);
+    if(output_gga_) nmea_pub_->publish(gga);
+  }
+}
+
+void Nmea2Fix::nmeaCallback(const nmea_msgs::msg::Sentence::ConstSharedPtr msg)
+{
+  sentence_.header = msg->header;
+  sentence_.sentence = msg->sentence;
+}
+
+double Nmea2Fix::stringToROSTime(std::string& input, double header_time)
 {
 
   time_t time;
@@ -50,7 +97,7 @@ double stringToROSTime(std::string& input, double header_time)
   return GPSTime;
 }
 
-void nmea2fix_converter(const nmea_msgs::Sentence sentence, sensor_msgs::NavSatFix* fix, nmea_msgs::Gpgga* gga)
+void Nmea2Fix::nmea2fixConverter(const nmea_msgs::msg::Sentence sentence, sensor_msgs::msg::NavSatFix* fix, nmea_msgs::msg::Gpgga* gga)
 {
 
   std::vector<std::string> linedata,nmea_data;
@@ -82,10 +129,10 @@ void nmea2fix_converter(const nmea_msgs::Sentence sentence, sensor_msgs::NavSatF
         gga->header = sentence.header;
         gga->message_id = nmea_data[0];
         // gga->utc_seconds = stod(nmea_data[1]);
-        if(!nmea_data[1].empty()) gga->utc_seconds = stringToROSTime(nmea_data[1], sentence.header.stamp.toSec());
-        gga->lat = floor(stod(nmea_data[2])/100) + fmod(stod(nmea_data[2]),100)/60;
+        if(!nmea_data[1].empty()) gga->utc_seconds = stringToROSTime(nmea_data[1], toSec(gga->header));
+        gga->lat = std::floor(stod(nmea_data[2])/100) + std::fmod(stod(nmea_data[2]),100)/60;
         gga->lat_dir = nmea_data[3];
-        gga->lon = floor(stod(nmea_data[4])/100) + fmod(stod(nmea_data[4]),100)/60;
+        gga->lon = std::floor(stod(nmea_data[4])/100) + std::fmod(stod(nmea_data[4]),100)/60;
         gga->lon_dir = nmea_data[5];
         if(!nmea_data[6].empty()) gga->gps_qual = stod(nmea_data[6]);
         if(!nmea_data[7].empty()) gga->num_sats = stod(nmea_data[7]);

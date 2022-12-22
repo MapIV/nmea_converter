@@ -7,7 +7,7 @@ A ros package that converts gnss nmea messages to navsatfix messages
 # Launch
 
 ~~~
-source $HOME/catkin_ws/devel/setup.bash
+source $HOME/colcon_ws/install/setup.bash
 roslaunch nmea2fix nmea2fix.launch
 ~~~
 

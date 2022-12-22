@@ -1,48 +1,39 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(nmea2fix)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-set(CMAKE_CXX_FLAGS "-O2 -std=c++11 -Wall")
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  sensor_msgs
-  nmea_msgs
-)
 
-catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES nmea2fix
-)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(nmea_msgs REQUIRED)
 
 include_directories(
   include
   ${PROJECT_SOURCE_DIR}/include
-  ${catkin_INCLUDE_DIRS}
 )
 
-add_library(nmea2fix
-  src/nmea2fix_core.cpp
-)
+# add_library(nmea2fix
+#   src/nmea2fix_core.cpp
+# )
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.hpp"
-)
 
-target_link_libraries(nmea2fix
-  ${catkin_LIBRARIES}
-)
+add_executable(nmea2fix src/nmea2fix_node.cpp src/nmea2fix_core.cpp)
+ament_target_dependencies(nmea2fix rclcpp sensor_msgs nmea_msgs)
 
 install(TARGETS nmea2fix
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+DESTINATION lib/${PROJECT_NAME})
+
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
 )
 
-find_package(catkin REQUIRED COMPONENTS
-  nmea2fix
-)
-
-add_executable(nmea2fix_node src/nmea2fix_node.cpp)
-target_link_libraries(nmea2fix_node ${catkin_LIBRARIES} )
-add_dependencies(nmea2fix_node ${catkin_EXPORTED_TARGETS})
+ament_package()
