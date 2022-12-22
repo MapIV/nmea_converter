@@ -31,7 +31,9 @@ ament_target_dependencies(nmea2fix rclcpp sensor_msgs nmea_msgs)
 install(TARGETS nmea2fix
 DESTINATION lib/${PROJECT_NAME})
 
-# install(TARGETS launch
-# DESTINATION install/${PROJECT_NAME})
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
 
 ament_package()
