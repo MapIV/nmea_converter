@@ -28,7 +28,17 @@
 
 using namespace std::chrono_literals;
 
-Nmea2Fix::Nmea2Fix():Node("nmeatofix_node"), sub_topic_name_(declare_parameter<std::string>("sub_topic_name")),pub_fix_topic_name_(declare_parameter<std::string>("pub_fix_topic_name")),pub_gga_topic_name_(declare_parameter<std::string>("pub_gga_topic_name")), output_gga_(declare_parameter<bool>("output_gga")){
+Nmea2Fix::Nmea2Fix():Node("nmeatofix_node"){
+
+  auto node = rclcpp::Node::make_shared("nmea2fix_node");
+
+
+  node->declare_parameter("nmea_sentence_topic",sub_topic_name_);
+  node->declare_parameter("pub_fix_topic_name",pub_fix_topic_name_);
+  node->declare_parameter("pub_gga_topic_name",pub_gga_topic_name_);
+  node->declare_parameter("output_gga",output_gga_);
+
+
   std::cout<< "sub_topic_name "<<sub_topic_name_<<std::endl;
   std::cout<< "pub_fix_topic_name "<<pub_fix_topic_name_<<std::endl;
   std::cout<< "pub_gga_topic_name "<<pub_gga_topic_name_<<std::endl;
