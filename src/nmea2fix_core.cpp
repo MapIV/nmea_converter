@@ -38,6 +38,10 @@ Nmea2Fix::Nmea2Fix():Node("nmeatofix_node"){
   node->declare_parameter("pub_gga_topic_name",pub_gga_topic_name_);
   node->declare_parameter("output_gga",output_gga_);
 
+  node->get_parameter("nmea_sentence_topic",sub_topic_name_);
+  node->get_parameter("pub_fix_topic_name",pub_fix_topic_name_);
+  node->get_parameter("pub_gga_topic_name",pub_gga_topic_name_);
+  node->get_parameter("output_gga",output_gga_);
 
   std::cout<< "sub_topic_name "<<sub_topic_name_<<std::endl;
   std::cout<< "pub_fix_topic_name "<<pub_fix_topic_name_<<std::endl;
