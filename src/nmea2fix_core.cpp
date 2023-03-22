@@ -28,20 +28,17 @@
 
 using namespace std::chrono_literals;
 
-Nmea2Fix::Nmea2Fix():Node("nmeatofix_node"){
+Nmea2Fix::Nmea2Fix():Node("nmea2fix_node"){
 
-  auto node = rclcpp::Node::make_shared("nmea2fix_node");
+  this->declare_parameter("sub_topic_name",sub_topic_name_);
+  this->declare_parameter("pub_fix_topic_name",pub_fix_topic_name_);
+  this->declare_parameter("pub_gga_topic_name",pub_gga_topic_name_);
+  this->declare_parameter("output_gga",output_gga_);
 
-
-  node->declare_parameter("nmea_sentence_topic",sub_topic_name_);
-  node->declare_parameter("pub_fix_topic_name",pub_fix_topic_name_);
-  node->declare_parameter("pub_gga_topic_name",pub_gga_topic_name_);
-  node->declare_parameter("output_gga",output_gga_);
-
-  node->get_parameter("nmea_sentence_topic",sub_topic_name_);
-  node->get_parameter("pub_fix_topic_name",pub_fix_topic_name_);
-  node->get_parameter("pub_gga_topic_name",pub_gga_topic_name_);
-  node->get_parameter("output_gga",output_gga_);
+  this->get_parameter("sub_topic_name",sub_topic_name_);
+  this->get_parameter("pub_fix_topic_name",pub_fix_topic_name_);
+  this->get_parameter("pub_gga_topic_name",pub_gga_topic_name_);
+  this->get_parameter("output_gga",output_gga_);
 
   std::cout<< "sub_topic_name "<<sub_topic_name_<<std::endl;
   std::cout<< "pub_fix_topic_name "<<pub_fix_topic_name_<<std::endl;
