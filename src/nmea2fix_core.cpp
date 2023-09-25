@@ -160,15 +160,7 @@ void Nmea2Fix::nmea2fixConverter(const nmea_msgs::msg::Sentence sentence, sensor
         fix->longitude = gga->lon;
         fix->altitude = gga->alt + gga->undulation;
         fix->status.service = 1;
-
-        if(gga->gps_qual == 4)
-        {
-          fix->status.status = 0;
-        }
-        else
-        {
-          fix->status.status = -1;
-        }
+        fix->status.status = 0;
       }
     }
   }

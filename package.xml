@@ -3,21 +3,21 @@
    href="http://download.ros.org/schema/package_format3.xsd"
    schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
- <name>nmea2fix</name>
- <version>0.0.0</version>
- <description>nmea2fix package</description>
- <maintainer email="kosei.tanada@map4.jp">KoseiTanada</maintainer>
- <license>BSD3</license>
+  <name>nmea2fix</name>
+  <version>0.0.0</version>
+  <description>nmea2fix package</description>
+  <maintainer email="kosei.tanada@map4.jp">KoseiTanada</maintainer>
+  <license>BSD3</license>
 
- <buildtool_depend>ament_cmake</buildtool_depend>
- <depend>rclcpp</depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
   <depend>nmea_msgs</depend>
 
- <test_depend>ament_lint_auto</test_depend>
- <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
- <export>
-   <build_type>ament_cmake</build_type>
- </export>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
